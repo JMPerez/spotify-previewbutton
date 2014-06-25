@@ -1,33 +1,46 @@
-<link rel="import" href="../polymer/polymer.html">
+<!doctype html>
+<html>
+  <head>
+    <title>spotify preview button demo</title>
 
-<polymer-element name="spotify-previewbutton" attributes="uri">
-  <template>
-    <link rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="/platform/platform.js"></script>
 
-    <div class="header">
-      <div class="play {{ playing ? 'playing' : '' }}" on-click="{{ togglePlay }}"></div>
+    <link rel="import" href="spb.html">
 
-      <div class="metadata">
-        <p class="title">{{ songTitle }}</p>
-        <p class="author">{{ author }}</p>
+    <style>
+      body {
+        background-color: #3c3c3c;
+        color: #ccc;
+        font-family: Arial;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Spotify Preview button demo</h1>
 
-        <div class="seekbar">
-          <progress value="{{ currentTime }}" max="{{ duration }}"></progress>
-        </div>
-      </div>
-    </div>
-    <div class="cover">
-      <img src="{{ cover }}" on-load="{{ onImageLoaded }}"/>
-    </div>
+    <p><form><input type="text" placeholder="Enter a spotify track URI here"><button type="submit">Load!</button></form></p>
+    <p><button value="spotify:track:57fkSJ5DWQN73Fzj7lIILS">La vie en Rose</button></p>
+    <p><button value="spotify:track:2WMqnU9LDhBBJ5m5Rs0ZYT">Glaub Mir Doch</button></p>
+    <p><button value="spotify:track:2wjVSAhv8Oe6a1eGGBnsiY">Fat Papa</button></p>
 
-    <audio id="audio" src="{{ audio }}"
-      on-play="{{ onPlayChange }}"
-      on-pause="{{ onPlayChange }}"
-      on-timeupdate="{{ onPlayProgress }}">
-    </audio>
+    <spotify-previewbutton uri="spotify:track:6zlOUIqcU6juXFww9UNpJK"></spotify-previewbutton>
 
-    <div class="loading {{ loading ? 'visible' : ''}}"></div>
-  </template>
+    <script type="text/javascript">
+      'use strict';
 
-  <script type="text/javascript" src="main.js"></script>
-</polymer-element>
+      var previewButton = document.querySelector('spotify-previewbutton');
+
+      document.querySelector('input').addEventListener('change', function (evt) {
+        previewButton.uri = evt.target.value;
+      });
+
+      var buttons = document.querySelectorAll('button');
+
+      [].slice.call(buttons).forEach(function(button) {
+        button.addEventListener('click', function (evt) {
+          previewButton.uri = evt.target.value;
+        });
+      });
+    </script>
+  </body>
+</html>
